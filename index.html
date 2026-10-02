@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chhota Seekho – Learn & Play</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#aee6ff;--bg2:#fff6d6;--ink:#2b2350;--card:#fff;--accent:#ff6b6b;--shadow:rgba(43,35,80,.18);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#1d2b64;--bg2:#3a2c5c;--ink:#fff7e0;--card:#4a3d78;--shadow:rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg1:#1d2b64;--bg2:#3a2c5c;--ink:#fff7e0;--card:#4a3d78;--shadow:rgba(0,0,0,.4)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font-family:'Baloo 2','Comic Sans MS',system-ui,sans-serif;color:var(--ink);background:linear-gradient(var(--bg1),var(--bg2));overflow-x:hidden}
+.sun{position:fixed;top:12px;right:16px;font-size:64px;animation:spin 14s linear infinite;z-index:0}
+.cloud{position:fixed;font-size:56px;opacity:.85;animation:drift 30s linear infinite;z-index:0}
+.c1{top:70px;left:-80px}.c2{top:150px;left:-80px;animation-duration:42s;animation-delay:-15s;font-size:44px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drift{to{transform:translateX(120vw)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(-6deg)}100%{transform:scale(1)}}
+@keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+main{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:12px 14px 40px}
+h1{text-align:center;font-size:clamp(30px,7vw,52px);margin:8px 0 0;font-weight:800}
+h1 span{display:inline-block;animation:bob 2s ease-in-out infinite}
+h1 span:nth-child(2n){animation-delay:.3s;color:var(--accent)}
+.sub{text-align:center;margin:0 0 10px;font-size:18px}
+.stars{position:sticky;top:6px;margin:0 auto 8px;width:max-content;background:var(--card);padding:4px 16px;border-radius:30px;font-weight:800;font-size:20px;box-shadow:0 4px 0 var(--shadow);z-index:5}
+nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+nav button{font:inherit;font-weight:800;font-size:18px;border:0;border-radius:22px;padding:8px 16px;background:var(--card);color:var(--ink);box-shadow:0 5px 0 var(--shadow);cursor:pointer;min-height:48px}
+nav button.on{background:var(--accent);color:#fff;animation:wiggle .8s ease-in-out infinite}
+nav button:active{transform:translateY(3px);box-shadow:0 2px 0 var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.card{background:var(--card);border:0;border-radius:24px;padding:12px 6px;text-align:center;box-shadow:0 6px 0 var(--shadow);cursor:pointer;font:inherit;color:var(--ink);animation:bob 3s ease-in-out infinite}
+.card:nth-child(3n){animation-delay:.5s}.card:nth-child(3n+1){animation-delay:1s}
+.card:hover{transform:scale(1.06)}
+.card.pop{animation:pop .5s}
+.big{font-size:54px;line-height:1.1;display:block}
+.em{font-size:46px;display:block}
+.lbl{font-weight:800;font-size:20px;display:block}
+.hi{font-size:18px;opacity:.85;display:block}
+.dots{font-size:20px;min-height:52px;display:block;word-break:break-all}
+.blob{width:64px;height:64px;border-radius:50%;margin:4px auto;border:4px solid #fff;box-shadow:0 3px 0 var(--shadow)}
+.q{text-align:center}
+.q h2{font-size:clamp(24px,5vw,34px);margin:6px 0 14px}
+.opts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.opts button{font-size:72px;background:var(--card);border:0;border-radius:28px;width:120px;height:120px;box-shadow:0 7px 0 var(--shadow);cursor:pointer}
+.opts button.no{animation:wiggle .2s 3;background:#ffd0d0}
+.opts button.yes{background:#c8f7c5;animation:pop .5s}
+.msg{min-height:40px;font-size:24px;font-weight:800;margin-top:14px}
+.conf{position:fixed;top:-40px;font-size:30px;pointer-events:none;z-index:50;animation:fall 2.2s linear forwards}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="sun">☀️</div><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div>
+<main>
+<h1><span>C</span><span>h</span><span>h</span><span>o</span><span>t</span><span>a</span> <span>S</span><span>e</span><span>e</span><span>k</span><span>h</span><span>o</span> 🌈</h1>
+<p class="sub">Tap a picture to hear it! • चित्र दबाओ और सुनो!</p>
+<div class="stars">⭐ <span id="sc">0</span></div>
+<nav id="nav"></nav>
+<section id="view"></section>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const ABC=[["A","Apple","🍎"],["B","Ball","⚽"],["C","Cat","🐱"],["D","Dog","🐶"],["E","Elephant","🐘"],["F","Fish","🐟"],["G","Grapes","🍇"],["H","Hen","🐔"],["I","Ice cream","🍦"],["J","Juice","🧃"],["K","Kite","🪁"],["L","Lion","🦁"],["M","Mango","🥭"],["N","Nest","🪺"],["O","Orange","🍊"],["P","Parrot","🦜"],["Q","Queen","👸"],["R","Rainbow","🌈"],["S","Sun","☀️"],["T","Tiger","🐯"],["U","Umbrella","☂️"],["V","Van","🚐"],["W","Watch","⌚"],["X","Xylophone","🎹"],["Y","Yo-yo","🪀"],["Z","Zebra","🦓"]];
+const NUM=[["1","एक","Ek","१"],["2","दो","Do","२"],["3","तीन","Teen","३"],["4","चार","Chaar","४"],["5","पाँच","Paanch","५"],["6","छह","Chhah","६"],["7","सात","Saat","७"],["8","आठ","Aath","८"],["9","नौ","Nau","९"],["10","दस","Das","१०"]];
+const SWAR=[["अ","अनार","🍎"],["आ","आम","🥭"],["इ","इमली","🌿"],["ई","ईख","🎋"],["उ","उल्लू","🦉"],["ऊ","ऊन","🧶"],["ए","एक","1️⃣"],["ऐ","ऐनक","👓"],["ओ","ओस","💧"],["औ","औरत","👩"],["अं","अंगूर","🍇"]];
+const COL=[["Red","लाल","#ff3b3b"],["Yellow","पीला","#ffd93b"],["Blue","नीला","#3b82ff"],["Green","हरा","#2fc25b"],["Orange","नारंगी","#ff8a1f"],["Pink","गुलाबी","#ff7ac6"],["Purple","बैंगनी","#9b5cff"],["White","सफ़ेद","#ffffff"],["Black","काला","#222222"]];
+const ANI=[["Elephant","हाथी","🐘"],["Tiger","बाघ","🐯"],["Peacock","मोर","🦚"],["Cow","गाय","🐄"],["Monkey","बंदर","🐒"],["Parrot","तोता","🦜"],["Camel","ऊँट","🐪"],["Lion","शेर","🦁"]];
+let stars=0;
+function say(t,l){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=l||"en-IN";u.rate=.8;u.pitch=1.3;speechSynthesis.speak(u)}catch(e){}}
+function pop(el){el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop")}
+function card(inner,fn){const b=document.createElement("button");b.className="card";b.innerHTML=inner;b.onclick=()=>{pop(b);fn()};return b}
+function grid(items){const g=document.createElement("div");g.className="grid";items.forEach(i=>g.appendChild(i));return g}
+function confetti(){const e=["⭐","🎉","🌟","🎈","✨"];for(let i=0;i<22;i++){const s=document.createElement("div");s.className="conf";s.textContent=e[i%5];s.style.left=Math.random()*100+"vw";s.style.animationDelay=Math.random()*.6+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),3200)}}
+const tabs={
+abc:["🔤 ABC",()=>grid(ABC.map(([l,w,e])=>card(`<span class="big">${l}${l.toLowerCase()}</span><span class="em">${e}</span><span class="lbl">${w}</span>`,()=>say(`${l} for ${w}`))))],
+num:["🔢 123",()=>grid(NUM.map(([n,h,r,d],i)=>card(`<span class="big">${n}</span><span class="dots">${"⭐".repeat(i+1)}</span><span class="lbl">${h} · ${r}</span><span class="hi">${d}</span>`,()=>{say(n);setTimeout(()=>say(h,"hi-IN"),900)})))],
+swar:["अ आ इ",()=>grid(SWAR.map(([l,w,e])=>card(`<span class="big">${l}</span><span class="em">${e}</span><span class="lbl">${w}</span>`,()=>say(`${l}, ${w}`,"hi-IN"))))],
+col:["🎨 Colours",()=>grid(COL.map(([n,h,c])=>card(`<div class="blob" style="background:${c}"></div><span class="lbl">${n}</span><span class="hi">${h}</span>`,()=>{say(n);setTimeout(()=>say(h,"hi-IN"),800)})))],
+ani:["🐘 Animals",()=>grid(ANI.map(([n,h,e])=>card(`<span class="big">${e}</span><span class="lbl">${n}</span><span class="hi">${h}</span>`,()=>{say(n);setTimeout(()=>say(h,"hi-IN"),800)})))],
+play:["🎮 Play",quiz]
+};
+function quiz(){
+const w=document.createElement("div");w.className="q";
+const pool=[...ANI.map(a=>[a[0],a[2]]),...ABC.slice(0,12).map(a=>[a[1],a[2]])];
+const ans=pool[Math.random()*pool.length|0];
+const opts=[ans];while(opts.length<3){const o=pool[Math.random()*pool.length|0];if(!opts.includes(o))opts.push(o)}
+opts.sort(()=>Math.random()-.5);
+w.innerHTML=`<h2>Where is the <b>${ans[0]}</b>? 🔍</h2><div class="opts"></div><div class="msg"></div>`;
+const box=w.querySelector(".opts"),msg=w.querySelector(".msg");
+setTimeout(()=>say("Find the "+ans[0]),300);
+opts.forEach(o=>{const b=document.createElement("button");b.textContent=o[1];b.onclick=()=>{
+if(o===ans){b.className="yes";stars++;$("#sc").textContent=stars;msg.textContent="Shabash! Great job! 🎉";say("Shabash! Great job!");confetti();setTimeout(()=>show("play"),2200)}
+else{b.className="no";msg.textContent="Try again! फिर से कोशिश करो 💪";say("Try again")}};box.appendChild(b)});
+return w}
+function show(k){document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.k===k));const v=$("#view");v.innerHTML="";v.appendChild(tabs[k][1]())}
+Object.keys(tabs).forEach(k=>{const b=document.createElement("button");b.textContent=tabs[k][0];b.dataset.k=k;b.onclick=()=>show(k);$("#nav").appendChild(b)});
+show("abc");
+</script>
+</body>
+</html>
